@@ -37,7 +37,7 @@ public class AuthNRequestBuilder {
 	private static final String SAML2_PASSWORD_PROTECTED_TRANSPORT = "urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport";
 	private static final String SAML2_ASSERTION = "urn:oasis:names:tc:SAML:2.0:assertion";
 
-	{
+	public AuthNRequestBuilder() {
 		try {
 			DefaultBootstrap.bootstrap();
 		} catch (ConfigurationException e) {
@@ -46,6 +46,24 @@ public class AuthNRequestBuilder {
 		}
 	}
 	
+	public String generateAuthNRequest(String assertionConsumerServiceUrl, String issuerId) {
+
+		String samlRequest = null;
+		
+		try {
+			AuthNRequestBuilder authReqBuilder = new AuthNRequestBuilder();
+			AuthnRequest authNRequest = authReqBuilder.buildAuthenticationRequest("http://login.company.com/saml/sso",
+					"http://www.okta.com/samlappid");
+			samlRequest = generateSAMLRequest(authNRequest);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return samlRequest;
+	}
+	
+	/*
 	public static void main(String[] args) {
 
 		try {
@@ -62,8 +80,9 @@ public class AuthNRequestBuilder {
 		}
 
 	}
+	*/
 
-	private static String generateSAMLRequest(AuthnRequest authRequest) throws Exception {
+	public String generateSAMLRequest(AuthnRequest authRequest) throws Exception {
 
 		Marshaller marshaller = org.opensaml.Configuration.getMarshallerFactory().getMarshaller(authRequest);
 		org.w3c.dom.Element authDOM = marshaller.marshall(authRequest);

@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bc6a9de7-46fc-4d94-8990-a4a4c206af0e" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 	<flow name="saml-validation-policyFlow" doc:id="f4aa42aa-053d-4628-8b52-46bee56089a8" >
-		<http:listener doc:name="Listener" doc:id="7ceb7f30-fa99-4a63-b8d0-bf04e46452c5" config-ref="HTTP_Listener_config" path="/test"/>
+		<http:listener doc:name="/test" doc:id="7ceb7f30-fa99-4a63-b8d0-bf04e46452c5" config-ref="HTTP_Listener_config" path="/test"/>
+		<java:new constructor="AuthNRequestBuilder()" doc:name="New" doc:id="f8f7562b-cbfa-4256-af87-db717634b216" class="com.dejim.AuthNRequestBuilder"/>
+		<java:invoke doc:name="Invoke" doc:id="67dafbe0-2ef7-4b0d-a637-7ee90de7c54b" instance="#[payload]" class="com.dejim.AuthNRequestBuilder" method="generateAuthNRequest(java.lang.String,java.lang.String)">
+			<java:args ><![CDATA[#[output application/java
+---
+{
+	arg0: "http://login.company.com/saml/sso",
+	arg1: "http://www.okta.com/samlappid"
+}]]]></java:args>
+		</java:invoke>
+	</flow>
+	<flow name="saml-validation-policyFlow1" doc:id="c01b8c0d-b201-482b-bc90-64094b1741e7" >
+		<http:listener doc:name="Listener" doc:id="a1c635f9-2758-4931-9317-bf17ccd465e6" config-ref="HTTP_Listener_config" path="/old"/>
 		<logger level="INFO" doc:name="Logger" doc:id="9e260020-901a-423b-906f-03f4b444bfc5" />
-		<ee:transform doc:name="Transform Message" doc:id="a5e8335e-0597-4fbe-9bda-c885d70d4740" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+		<ee:transform doc:name="Transform Message" doc:id="a5e8335e-0597-4fbe-9bda-c885d70d4740">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/java
 
 import dw::Crypto
