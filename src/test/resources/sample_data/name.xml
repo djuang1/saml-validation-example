@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<samlp:Response Destination="https://anypoint.mulesoft.com/accounts/login/receive-id"
+    ID="_b37d6981925e7d354c39ef53e662be0e1606794430374" IssueInstant="2020-12-01T03:47:10.374Z"
+    Version="2.0" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol">
+    <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity"
+        xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">https://djuang1-dev-ed.my.salesforce.com</saml:Issuer>
+    <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:SignedInfo>
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <ds:Reference URI="#_b37d6981925e7d354c39ef53e662be0e1606794430374">
+                <ds:Transforms>
+                    <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                    <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ds saml samlp xs xsi"
+                        xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform>
+                </ds:Transforms>
+                <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                <ds:DigestValue>FfAdXFQZJknWnxCugQ0bo5td+VM=</ds:DigestValue>
+            </ds:Reference>
+        </ds:SignedInfo>
+        <ds:SignatureValue>
+            KyGMwnR9SD5Bp/HqPqlwUW0pNkZ8beraF+WuDfb7FKTh6stfZrzZtu8ctBc9C5xpMo94S47pWsg/
+            T08YGPNGzcFZKW89m1SkrHENIDvzjLktmy0q9LjnqokfE7yECe8ykUd4qEX9THG7Z6UnL60+aokD
+            lDfbDoXeCZlKx5s8tTGgcY+81FRp7+7HvgDUnVQovuAu4tsukfVXcBdWUHGlxANRiOgNllNpy5Xy
+            naLFUq012ibObL4Zq7es1DOJNi7HbIWp1rhpCRheYjNYO6ERIe63wfArsBVAD2+SeaDqa9PMH7wO
+            a0hVQMlNa248byAuxlXRg9n4mEuqZ2LeQtG13g==
+        </ds:SignatureValue>
+        <ds:KeyInfo>
+            <ds:X509Data>
+                <ds:X509Certificate>MIIEUjCCAzqgAwIBAgIOAXTf5OScAAAAAF2aaZswDQYJKoZIhvcNAQELBQAwdDEMMAoGA1UEAwwD
+                    U1NPMRgwFgYDVQQLDA8wMERvMDAwMDAwMFpwOUUxFzAVBgNVBAoMDlNhbGVzZm9yY2UuY29tMRYw
+                    FAYDVQQHDA1TYW4gRnJhbmNpc2NvMQswCQYDVQQIDAJDQTEMMAoGA1UEBhMDVVNBMB4XDTIwMDkz
+                    MDE2NDIzNFoXDTIxMDkzMDEyMDAwMFowdDEMMAoGA1UEAwwDU1NPMRgwFgYDVQQLDA8wMERvMDAw
+                    MDAwMFpwOUUxFzAVBgNVBAoMDlNhbGVzZm9yY2UuY29tMRYwFAYDVQQHDA1TYW4gRnJhbmNpc2Nv
+                    MQswCQYDVQQIDAJDQTEMMAoGA1UEBhMDVVNBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+                    AQEAp+4cSsWiOZgW3le2obAzqfWg/O5m2JfGMvLV9C4INJJtjwdTfLUhKdDywCC0lMATenuoezRy
+                    4iXuc11lXWChlN87QK6xt63pVmv+gQaWkVs+yVdw0ZFvzuC1kdoeQTkKGnj+z9ZWzx+kn17IEVkJ
+                    iVdfzQZbGNkJURN0rhitUJnYMBaFA5kL2lLQScAFnKh9DKa7EaDy4yby1aGeKc+Eu2Y9hfOGOm6j
+                    HbeEIWeJnmSkY7yXAqQHTYALIUvPkYtOQ/jeLwQKV8jx4sRlQzIHnTRm9J5Qa1LRCvJGHqCVBWDs
+                    2/D5jtDgfT5mRpKw1ZGRutHlbIsXHNfnVCLgPwBHWQIDAQABo4HhMIHeMB0GA1UdDgQWBBSUeo68
+                    OlA7PJGFR/9F7XBPllBo+zAPBgNVHRMBAf8EBTADAQH/MIGrBgNVHSMEgaMwgaCAFJR6jrw6UDs8
+                    kYVH/0XtcE+WUGj7oXikdjB0MQwwCgYDVQQDDANTU08xGDAWBgNVBAsMDzAwRG8wMDAwMDAwWnA5
+                    RTEXMBUGA1UECgwOU2FsZXNmb3JjZS5jb20xFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xCzAJBgNV
+                    BAgMAkNBMQwwCgYDVQQGEwNVU0GCDgF03+TknAAAAABdmmmbMA0GCSqGSIb3DQEBCwUAA4IBAQAS
+                    WXRbT7Fjd2Z9GUeqj36P1jx/p8A/v5bedZV97lrFdHGfI40L9RGH1eAfLSCeoRymEUJP8NfkMbLo
+                    pygXJPrHmBZwBN07bReHBSZ7BWzHtdrpoVzYq2wa/v/O3EUAFO/mCJlLoTshix/SqpPC8eUGXMjC
+                    S3ajvAIivkLsNu1vEqhMlNvX1I8Fs5I1160cKcRvkhTEcvPKrE8qJ8rpxlCT4IPUhIyI6XOaKQcy
+                    Jm37UCvYXyHiFZgLUyXDU26i/oas0cqunBv8l6dD/MJ0zioXAzJj6aydP7Gk1Jc5B2K1La5g4bhw
+                    kgAvLOiEGzS2GJPYqXm0PEwe+FKhh/xaJVCR</ds:X509Certificate>
+            </ds:X509Data>
+        </ds:KeyInfo>
+    </ds:Signature>
+    <samlp:Status><samlp:StatusCode Value="urn:oasis:names:tc:SAML:2.0:status:Success"/></samlp:Status>
+    <saml:Assertion ID="_57021c68ef764a1964bc5dd286e811101606794430374"
+        IssueInstant="2020-12-01T03:47:10.374Z" Version="2.0"
+        xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+        <saml:Issuer Format="urn:oasis:names:tc:SAML:2.0:nameid-format:entity">https://djuang1-dev-ed.my.salesforce.com</saml:Issuer>
+        <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+            <ds:SignedInfo>
+                <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+                <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+                <ds:Reference URI="#_57021c68ef764a1964bc5dd286e811101606794430374">
+                    <ds:Transforms>
+                        <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                        <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"><ec:InclusiveNamespaces PrefixList="ds saml xs xsi"
+                            xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transform>
+                    </ds:Transforms>
+                    <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                    <ds:DigestValue>Nw1zu3laqem8iwzu1q0sXIIlSoI=</ds:DigestValue>
+                </ds:Reference>
+            </ds:SignedInfo>
+            <ds:SignatureValue>
+                Ukv2mbZ0x/ZZ0ebY6M65ulguuZWwgRJc+/rpjevzohpccGiVm/o9ixHNhzYmfahZwSNbauBv2Owf
+                vJF3KvD+vRBWTonOuMBvqPcJWOnf3WmrxJt7nUFc+0o3R5OL4Qakk8W0wNRnN91LM+W+z2k/+zwF
+                5lVQxqyT6FHPm0XFcv8wYPwCkgf574DQzqp82LMzbRUu785CXIWR+sl3NUeHSlDzDkkz24W6SbIr
+                VwgjmyVQF1uD/PJ+IdkIpoyieQEtrOyX2jq8xIvYZULvTXTZ1QS2eLPDmfaA2WfeEzakGMndfvVV
+                0PJijxeZa+/5NgSKgVoNo1A4krB3sWroYo8IIg==
+            </ds:SignatureValue>
+            <ds:KeyInfo>
+                <ds:X509Data>
+                    <ds:X509Certificate>MIIEUjCCAzqgAwIBAgIOAXTf5OScAAAAAF2aaZswDQYJKoZIhvcNAQELBQAwdDEMMAoGA1UEAwwD
+                        U1NPMRgwFgYDVQQLDA8wMERvMDAwMDAwMFpwOUUxFzAVBgNVBAoMDlNhbGVzZm9yY2UuY29tMRYw
+                        FAYDVQQHDA1TYW4gRnJhbmNpc2NvMQswCQYDVQQIDAJDQTEMMAoGA1UEBhMDVVNBMB4XDTIwMDkz
+                        MDE2NDIzNFoXDTIxMDkzMDEyMDAwMFowdDEMMAoGA1UEAwwDU1NPMRgwFgYDVQQLDA8wMERvMDAw
+                        MDAwMFpwOUUxFzAVBgNVBAoMDlNhbGVzZm9yY2UuY29tMRYwFAYDVQQHDA1TYW4gRnJhbmNpc2Nv
+                        MQswCQYDVQQIDAJDQTEMMAoGA1UEBhMDVVNBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+                        AQEAp+4cSsWiOZgW3le2obAzqfWg/O5m2JfGMvLV9C4INJJtjwdTfLUhKdDywCC0lMATenuoezRy
+                        4iXuc11lXWChlN87QK6xt63pVmv+gQaWkVs+yVdw0ZFvzuC1kdoeQTkKGnj+z9ZWzx+kn17IEVkJ
+                        iVdfzQZbGNkJURN0rhitUJnYMBaFA5kL2lLQScAFnKh9DKa7EaDy4yby1aGeKc+Eu2Y9hfOGOm6j
+                        HbeEIWeJnmSkY7yXAqQHTYALIUvPkYtOQ/jeLwQKV8jx4sRlQzIHnTRm9J5Qa1LRCvJGHqCVBWDs
+                        2/D5jtDgfT5mRpKw1ZGRutHlbIsXHNfnVCLgPwBHWQIDAQABo4HhMIHeMB0GA1UdDgQWBBSUeo68
+                        OlA7PJGFR/9F7XBPllBo+zAPBgNVHRMBAf8EBTADAQH/MIGrBgNVHSMEgaMwgaCAFJR6jrw6UDs8
+                        kYVH/0XtcE+WUGj7oXikdjB0MQwwCgYDVQQDDANTU08xGDAWBgNVBAsMDzAwRG8wMDAwMDAwWnA5
+                        RTEXMBUGA1UECgwOU2FsZXNmb3JjZS5jb20xFjAUBgNVBAcMDVNhbiBGcmFuY2lzY28xCzAJBgNV
+                        BAgMAkNBMQwwCgYDVQQGEwNVU0GCDgF03+TknAAAAABdmmmbMA0GCSqGSIb3DQEBCwUAA4IBAQAS
+                        WXRbT7Fjd2Z9GUeqj36P1jx/p8A/v5bedZV97lrFdHGfI40L9RGH1eAfLSCeoRymEUJP8NfkMbLo
+                        pygXJPrHmBZwBN07bReHBSZ7BWzHtdrpoVzYq2wa/v/O3EUAFO/mCJlLoTshix/SqpPC8eUGXMjC
+                        S3ajvAIivkLsNu1vEqhMlNvX1I8Fs5I1160cKcRvkhTEcvPKrE8qJ8rpxlCT4IPUhIyI6XOaKQcy
+                        Jm37UCvYXyHiFZgLUyXDU26i/oas0cqunBv8l6dD/MJ0zioXAzJj6aydP7Gk1Jc5B2K1La5g4bhw
+                        kgAvLOiEGzS2GJPYqXm0PEwe+FKhh/xaJVCR</ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </ds:Signature>
+        <saml:Subject>
+            <saml:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified">dreamforce2014@mulesoft.com</saml:NameID>
+            <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer"><saml:SubjectConfirmationData NotOnOrAfter="2020-12-01T03:52:10.375Z"
+                Recipient="https://anypoint.mulesoft.com/accounts/login/receive-id"/></saml:SubjectConfirmation>
+        </saml:Subject>
+        <saml:Conditions NotBefore="2020-12-01T03:46:40.375Z" NotOnOrAfter="2020-12-01T03:52:10.375Z">
+            <saml:AudienceRestriction>
+                <saml:Audience>djuang1.anypoint.mulesoft.com</saml:Audience>
+            </saml:AudienceRestriction>
+        </saml:Conditions>
+        <saml:AuthnStatement AuthnInstant="2020-12-01T03:47:10.374Z">
+            <saml:AuthnContext>
+                <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified</saml:AuthnContextClassRef>
+            </saml:AuthnContext>
+        </saml:AuthnStatement>
+        <saml:AttributeStatement>
+            <saml:Attribute Name="userId" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">005o00000017G8a</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="username" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">dreamforce2014@mulesoft.com</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">dejim.juang+sfdc@mulesoft.com</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="is_portal_user"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">false</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="lastname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">Admin</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="firstname"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">Demo</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="firstname"
+                NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">Demo</saml:AttributeValue>
+            </saml:Attribute>
+            <saml:Attribute Name="lastname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified">
+                <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:anyType">Admin</saml:AttributeValue>
+            </saml:Attribute>
+        </saml:AttributeStatement>
+    </saml:Assertion>
+</samlp:Response>

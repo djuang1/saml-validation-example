@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="bc6a9de7-46fc-4d94-8990-a4a4c206af0e" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="saml-validation-policyFlow" doc:id="f4aa42aa-053d-4628-8b52-46bee56089a8" >
+		<http:listener doc:name="Listener" doc:id="7ceb7f30-fa99-4a63-b8d0-bf04e46452c5" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9e260020-901a-423b-906f-03f4b444bfc5" />
+		<ee:transform doc:name="Transform Message" doc:id="a5e8335e-0597-4fbe-9bda-c885d70d4740" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+
+import dw::Crypto
+import toBase64 from dw::core::Binaries
+
+ns ns0 http://schemas.xmlsoap.org/soap/envelope/
+ns ns1 http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd
+ns ns2 http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd
+ns saml urn:oasis:names:tc:SAML:2.0:assertion
+
+var assertion= {
+saml#Assertion @((payload.ns0#Envelope.ns0#Header.ns1#Security.saml#Assertion.@)): payload.ns0#Envelope.ns0#Header.ns1#Security.saml#Assertion
+}
+
+---
+
+if (assertion.saml#Assertion !=null) toBase64(write(assertion,"application/xml", {"writeDeclaration":false,"indent":false}) as Binary) else ""]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
