@@ -52,8 +52,7 @@ public class AuthNRequestBuilder {
 		
 		try {
 			AuthNRequestBuilder authReqBuilder = new AuthNRequestBuilder();
-			AuthnRequest authNRequest = authReqBuilder.buildAuthenticationRequest("http://login.company.com/saml/sso",
-					"http://www.okta.com/samlappid");
+			AuthnRequest authNRequest = authReqBuilder.buildAuthenticationRequest(assertionConsumerServiceUrl,issuerId);
 			samlRequest = generateSAMLRequest(authNRequest);
 			
 		} catch (Exception e) {
@@ -63,13 +62,13 @@ public class AuthNRequestBuilder {
 		return samlRequest;
 	}
 	
-	/*
+	
 	public static void main(String[] args) {
 
 		try {
 			AuthNRequestBuilder authReqBuilder = new AuthNRequestBuilder();
-			AuthnRequest authNRequest = authReqBuilder.buildAuthenticationRequest("http://login.company.com/saml/sso",
-					"http://www.okta.com/samlappid");
+			AuthnRequest authNRequest = authReqBuilder.buildAuthenticationRequest("http://localhost:8081/callback",
+					"http://localhost:8081");
 			String samlRequest = generateSAMLRequest(authNRequest);
 			
 			System.out.println(samlRequest);
@@ -80,23 +79,29 @@ public class AuthNRequestBuilder {
 		}
 
 	}
-	*/
+	
 
-	public String generateSAMLRequest(AuthnRequest authRequest) throws Exception {
+	public static String generateSAMLRequest(AuthnRequest authRequest) throws Exception {
 
 		Marshaller marshaller = org.opensaml.Configuration.getMarshallerFactory().getMarshaller(authRequest);
 		org.w3c.dom.Element authDOM = marshaller.marshall(authRequest);
 		StringWriter rspWrt = new StringWriter();
 		XMLHelper.writeNode(authDOM, rspWrt);
 		String messageXML = rspWrt.toString();
-
+		
+		/*
+		System.out.println(messageXML);
 		Deflater deflater = new Deflater(Deflater.DEFLATED, true);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(byteArrayOutputStream, deflater);
 		deflaterOutputStream.write(messageXML.getBytes());
 		deflaterOutputStream.close();
-		String samlRequest = Base64.encodeBytes(byteArrayOutputStream.toByteArray(), Base64.DONT_BREAK_LINES);
-		return URLEncoder.encode(samlRequest, "UTF-8");
+		*/
+		
+		String samlRequest = Base64.encodeBytes(messageXML.getBytes(),Base64.DONT_BREAK_LINES);
+		//String samlRequest = Base64.encodeBytes(byteArrayOutputStream.toByteArray(), Base64.DONT_BREAK_LINES);
+		//return URLEncoder.encode(samlRequest, "UTF-8");
+		return samlRequest;
 	}
 
 	/**
@@ -110,14 +115,16 @@ public class AuthNRequestBuilder {
 		DateTime issueInstant = new DateTime();
 		AuthnRequestBuilder authRequestBuilder = new AuthnRequestBuilder();
 		AuthnRequest authRequest = authRequestBuilder.buildObject(SAML2_PROTOCOL, "AuthnRequest", "samlp");
-		authRequest.setForceAuthn(Boolean.FALSE);
-		authRequest.setIsPassive(Boolean.FALSE);
+		//authRequest.setForceAuthn(Boolean.FALSE);
+		//authRequest.setIsPassive(Boolean.FALSE);
+		authRequest.setDestination("https://djuang1-dev-ed.my.salesforce.com/idp/login?app=0sp3m000000TOFf");
+		authRequest.setProviderName("https://saml.salesforce.com");
 		authRequest.setIssueInstant(issueInstant);
 		authRequest.setProtocolBinding(SAML2_POST_BINDING);
 		authRequest.setAssertionConsumerServiceURL(assertionConsumerServiceUrl);
 		authRequest.setIssuer(buildIssuer(issuerId));
-		authRequest.setNameIDPolicy(buildNameIDPolicy());
-		authRequest.setRequestedAuthnContext(buildRequestedAuthnContext());
+		//authRequest.setNameIDPolicy(buildNameIDPolicy());
+		//authRequest.setRequestedAuthnContext(buildRequestedAuthnContext());
 		authRequest.setID(UUID.randomUUID().toString());
 		authRequest.setVersion(SAMLVersion.VERSION_20);
 
