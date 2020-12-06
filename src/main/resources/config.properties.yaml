@@ -1,0 +1,4 @@
+truststore:
+  path: "/Users/dejim.juang/Workspaces/seven-seven/saml-validation-example/src/main/resources/00Do0000000Zp9E.jks"
+  password: ""
+  alias: ""
