@@ -1,61 +1,25 @@
 package com.dejim;
 
 import org.opensaml.common.SAMLVersion;
-import org.opensaml.saml2.core.Assertion;
 import org.opensaml.saml2.core.AuthnContextClassRef;
 import org.opensaml.saml2.core.AuthnContextComparisonTypeEnumeration;
 import org.opensaml.saml2.core.AuthnRequest;
 import org.opensaml.saml2.core.Issuer;
 import org.opensaml.saml2.core.NameIDPolicy;
 import org.opensaml.saml2.core.RequestedAuthnContext;
-import org.opensaml.saml2.core.Response;
 import org.opensaml.saml2.core.impl.AuthnContextClassRefBuilder;
 import org.opensaml.saml2.core.impl.AuthnRequestBuilder;
 import org.opensaml.saml2.core.impl.IssuerBuilder;
 import org.opensaml.saml2.core.impl.NameIDPolicyBuilder;
 import org.opensaml.saml2.core.impl.RequestedAuthnContextBuilder;
-import org.opensaml.security.SAMLSignatureProfileValidator;
-import org.opensaml.Configuration;
 import org.opensaml.DefaultBootstrap;
 import org.opensaml.xml.ConfigurationException;
-import org.opensaml.xml.XMLObject;
-
 import org.opensaml.xml.io.Marshaller;
-import org.opensaml.xml.io.MarshallingException;
-
-import org.opensaml.xml.io.Unmarshaller;
-import org.opensaml.xml.io.UnmarshallerFactory;
-import org.opensaml.xml.io.UnmarshallingException;
-import org.opensaml.xml.security.x509.BasicX509Credential;
-import org.opensaml.xml.signature.Signature;
-import org.opensaml.xml.signature.SignatureValidator;
 import org.opensaml.xml.util.XMLHelper;
-import org.opensaml.xml.validation.ValidationException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 import org.opensaml.xml.util.Base64;
-
 import java.util.UUID;
 import java.io.StringWriter;
 import org.joda.time.DateTime;
-
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 
 public class AuthNRequestBuilder {
 
@@ -90,77 +54,6 @@ public class AuthNRequestBuilder {
 		}
 		return samlRequest;
 	}
-
-	public String validateSAMLResponse(String samlResponse, String keystorePath, String keystorePass, String keyAlias)
-			throws ParserConfigurationException, SAXException, IOException, UnmarshallingException, ValidationException,
-			KeyStoreException, NoSuchAlgorithmException, CertificateException {
-
-		String assertionString = "";
-
-		/*
-		try {
-			DefaultBootstrap.bootstrap();
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		documentBuilderFactory.setNamespaceAware(true);
-		DocumentBuilder docBuilder = documentBuilderFactory.newDocumentBuilder();
-		byte[] base64DecodedResponse = Base64.decode(samlResponse);
-		Document document = docBuilder.parse(new ByteArrayInputStream(base64DecodedResponse));
-		Element element = document.getDocumentElement();
-		UnmarshallerFactory unmarshallerFactory = Configuration.getUnmarshallerFactory();
-		Unmarshaller unmarshaller = unmarshallerFactory.getUnmarshaller(element);
-
-		XMLObject responseXmlObj = unmarshaller.unmarshall(element);
-		Response response = (Response) responseXmlObj;
-
-		KeyStore keyStore = null;
-		keyStore = KeyStore.getInstance("JKS");
-		java.security.cert.X509Certificate cert = null;
-		keyStore.load(new FileInputStream(keystorePath), keystorePass.toCharArray());
-		cert = (java.security.cert.X509Certificate) keyStore.getCertificate(keyAlias);
-
-		BasicX509Credential credential = new BasicX509Credential();
-		credential.setEntityCertificate(cert);
-
-		SAMLSignatureProfileValidator profileValidator = new SAMLSignatureProfileValidator();
-		profileValidator.validate(response.getSignature());
-		SignatureValidator sigValidator = new SignatureValidator(credential);
-		sigValidator.validate(response.getSignature());
-
-		assertionString = response.getAssertions().get(0).getAttributeStatements().get(0).getDOM().getTextContent();
-
-		return assertionString;
-
-	}
-
-	/*
-	public static void main(String[] args) {
-
-		try {
-			
-			AuthNRequestBuilder authReqBuilder = new AuthNRequestBuilder();
-			AuthnRequest authNRequest = authReqBuilder.buildAuthenticationRequest("http://localhost:8081/callback",
-					"http://localhost:8081", "https://djuang1-dev-ed.my.salesforce.com/idp/login?app=0sp3m000000TOFf");
-			
-			String valid = validateSAMLResponse("");
-			System.out.println(valid);
-			
-			String samlRequest = generateSAMLRequest(authNRequest);
-
-			System.out.println(samlRequest);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	*/
 
 	public String generateSAMLRequest(AuthnRequest authRequest) throws Exception {
 
@@ -259,4 +152,19 @@ public class AuthNRequestBuilder {
 
 		return requestedAuthnContext;
 	}
+	
+	/*
+	public static void main(String[] args) {
+		try {	
+			AuthNRequestBuilder authReqBuilder = new AuthNRequestBuilder();
+			AuthnRequest authNRequest = authReqBuilder.buildAuthenticationRequest("http://localhost:8081/callback",
+					"http://localhost:8081", "https://djuang1-dev-ed.my.salesforce.com/idp/login?app=0sp3m000000TOFf");
+			String samlRequest = generateSAMLRequest(authNRequest);
+			System.out.println(samlRequest);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	*/
 }
