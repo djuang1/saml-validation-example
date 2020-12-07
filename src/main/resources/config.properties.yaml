@@ -4,7 +4,8 @@ truststore:
   alias: ""
 idp:
   loginUrl: "https://djuang1-dev-ed.my.salesforce.com/idp/login?app=0sp3m000000TOFf"
+  postEndpoint: "https://djuang1-dev-ed.my.salesforce.com/idp/endpoint/HttpPost"
 sp:
   entityId: "mule.saml.example"  
   providerName: "mulesoft.com"
-  acsUrl: "http://localhost:8081/callback"
+  acsUrl: "http://localhost:8081/test"

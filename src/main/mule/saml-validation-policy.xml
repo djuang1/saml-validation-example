@@ -12,8 +12,20 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 	<configuration-properties doc:name="Configuration properties" doc:id="23944009-5531-4964-a662-7608ec1230ab" file="config.properties.yaml" />
 	<flow name="saml-validation-policyFlow" doc:id="f4aa42aa-053d-4628-8b52-46bee56089a8" >
 		<http:listener doc:name="/test" doc:id="7ceb7f30-fa99-4a63-b8d0-bf04e46452c5" config-ref="HTTP_Listener_config" path="/test"/>
-		<java:new constructor="AuthNRequestBuilder()" doc:name="New" doc:id="f8f7562b-cbfa-4256-af87-db717634b216" class="com.dejim.AuthNRequestBuilder" />
-		<java:invoke doc:name="Invoke" doc:id="67dafbe0-2ef7-4b0d-a637-7ee90de7c54b" instance="#[payload]" class="com.dejim.AuthNRequestBuilder" method="generateAuthNRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
+		<set-variable value="#[false]" doc:name="getSAMLResponse - false" doc:id="3379bb3a-71e9-420b-b37f-63c40002327c" variableName="getSAMLResponse" />
+		<try doc:name="Try" doc:id="5ec8a4b9-e7ce-4541-8cd7-0205abe4e5b7" >
+			<set-variable value="#[output application/java --- payload.SAMLResponse]" doc:name="SAMLResponse" doc:id="3d7bdd75-3494-4321-85c4-2b6e7ddbef8f" variableName="SAMLResponse" />
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b7310516-c426-4274-8660-d0c0efa19c04" type="ANY">
+					<logger level="INFO" doc:name="Logger" doc:id="e5ebf0d1-d5d5-4f3f-bcdd-ccf60dd42078" message="User has not validated with IdP"/>
+					<set-variable value="true" doc:name="getSAMLResponse - true" doc:id="c0d77208-9eb0-4b9b-a933-81402152acb4" variableName="getSAMLResponse"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<choice doc:name="Choice" doc:id="abfed9e3-11bb-445b-82c9-f15870b48471" >
+			<when expression="#[vars.getSAMLResponse]">
+				<java:new constructor="AuthNRequestBuilder()" doc:name="New" doc:id="f8f7562b-cbfa-4256-af87-db717634b216" class="com.dejim.AuthNRequestBuilder" />
+				<java:invoke doc:name="Generate AuthNRequest" doc:id="67dafbe0-2ef7-4b0d-a637-7ee90de7c54b" instance="#[payload]" class="com.dejim.AuthNRequestBuilder" method="generateAuthNRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 			<java:args><![CDATA[#[output application/java
 ---
 {
@@ -23,7 +35,7 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 	arg3: p('sp.providerName')
 }]]]></java:args>
 		</java:invoke>
-		<http:request method="POST" doc:name="Request" doc:id="c25f6500-7d5b-4551-856a-4696cdc96290" url="https://djuang1-dev-ed.my.salesforce.com/idp/endpoint/HttpPost">
+				<http:request method="POST" doc:name="IdP POST Endpoint" doc:id="c25f6500-7d5b-4551-856a-4696cdc96290" url="#[p('idp.postEndpoint')]">
 			<http:body><![CDATA[#[output application/x-www-form-urlencoded
 ---
 {
@@ -31,13 +43,10 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 	"RelayState": "/"
 }]]]></http:body>
 		</http:request>
-	</flow>
-	<flow name="saml-validation-policyFlow1" doc:id="6b7d70c9-2b75-4478-9e2e-a056f9479e40" >
-		<http:listener doc:name="/callback" doc:id="7a65b47c-4e34-46a3-b08d-92eee3290f66" config-ref="HTTP_Listener_config" path="/callback"/>
-		<logger level="INFO" doc:name="Logger" doc:id="e99ddc85-2045-48fe-9d7e-a4c9d7b5b9cd" message="#[payload]"/>
-		<set-variable value="#[output application/java --- payload.SAMLResponse]" doc:name="Set Variable" doc:id="3e7301f0-bbeb-45a0-b679-f843cb2b4341" variableName="SAMLResponse" />
-		<java:new doc:name="New" doc:id="ba9bd8bd-e000-4d98-9a3f-9b4a4d75b5f7" class="com.dejim.SAMLValidator" constructor="SAMLValidator()" />
-		<java:invoke doc:name="Invoke" doc:id="e8c83b4b-b752-4ae2-9e24-a3d65fe506de" instance="#[payload]" class="com.dejim.SAMLValidator" method="validateSAMLResponse(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
+			</when>
+			<otherwise>
+				<java:new doc:name="New" doc:id="ba9bd8bd-e000-4d98-9a3f-9b4a4d75b5f7" class="com.dejim.SAMLValidator" constructor="SAMLValidator()" />
+				<java:invoke doc:name="Validate SAMLResponse" doc:id="e8c83b4b-b752-4ae2-9e24-a3d65fe506de" instance="#[payload]" class="com.dejim.SAMLValidator" method="validateSAMLResponse(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 			<java:args><![CDATA[#[output application/java
 ---
 {
@@ -47,7 +56,7 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 	arg3: p('truststore.alias')
 }]]]></java:args>
 		</java:invoke>
-		<ee:transform doc:name="Transform Message" doc:id="efceef24-861b-4ddf-b07f-5de03975a835">
+				<ee:transform doc:name="Transform Message" doc:id="efceef24-861b-4ddf-b07f-5de03975a835">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -55,5 +64,7 @@ output application/json
 payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+			</otherwise>
+		</choice>
 	</flow>
 </mule>
