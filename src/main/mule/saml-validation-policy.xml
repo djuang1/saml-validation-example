@@ -13,15 +13,17 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 	<flow name="saml-validation-policyFlow" doc:id="f4aa42aa-053d-4628-8b52-46bee56089a8" >
 		<http:listener doc:name="/test" doc:id="7ceb7f30-fa99-4a63-b8d0-bf04e46452c5" config-ref="HTTP_Listener_config" path="/test"/>
 		<java:new constructor="AuthNRequestBuilder()" doc:name="New" doc:id="f8f7562b-cbfa-4256-af87-db717634b216" class="com.dejim.AuthNRequestBuilder"/>
-		<java:invoke doc:name="Invoke" doc:id="67dafbe0-2ef7-4b0d-a637-7ee90de7c54b" instance="#[payload]" class="com.dejim.AuthNRequestBuilder" method="generateAuthNRequest(java.lang.String,java.lang.String,java.lang.String)">
+		<java:invoke doc:name="Invoke" doc:id="67dafbe0-2ef7-4b0d-a637-7ee90de7c54b" instance="#[payload]" class="com.dejim.AuthNRequestBuilder" method="generateAuthNRequest(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 			<java:args ><![CDATA[#[output application/java
 ---
 {
-	arg0: "http://localhost:8081/callback",
-	arg1: "http://localhost:8081",
-	arg2: "https://djuang1-dev-ed.my.salesforce.com/idp/login?app=0sp3m000000TOFf"
+	arg0: p('sp.acsUrl'),
+	arg1: p('sp.entityId'),
+	arg2: p('idp.loginUrl'),
+	arg3: p('sp.providerName')
 }]]]></java:args>
 		</java:invoke>
+		<logger level="INFO" doc:name="Logger" doc:id="5b5d7ff3-95a4-4c50-99a1-c3ebe4198614" message="#[payload]"/>
 		<http:request method="POST" doc:name="Request" doc:id="c25f6500-7d5b-4551-856a-4696cdc96290" url="https://djuang1-dev-ed.my.salesforce.com/idp/endpoint/HttpPost">
 			<http:body ><![CDATA[#[output application/x-www-form-urlencoded
 ---
@@ -30,27 +32,17 @@ http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/jav
 	"RelayState": "/001/o"
 }]]]></http:body>
 		</http:request>
-		<logger level="INFO" doc:name="Logger" doc:id="5b5d7ff3-95a4-4c50-99a1-c3ebe4198614" />
 	</flow>
 	<flow name="saml-validation-policyFlow2" doc:id="660a4421-6d8f-4bba-aec5-3b957d10406e" >
 		<http:listener doc:name="/callback" doc:id="4bfb6239-80f2-4140-aa64-2373382f5faa" config-ref="HTTP_Listener_config" path="/callback"/>
-		<logger level="INFO" doc:name="Logger" doc:id="a3c2d141-7ddb-4390-b43f-944511720021" message="CALLBACK"/>
-		<ee:transform doc:name="Transform Message" doc:id="c3409c6c-4f9b-4a2d-85d9-d6b263cb0385" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-import * from dw::core::Binaries
-output application/json
----
-payload
-//fromBase64(payload.SAMLResponse)]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
+		<set-variable value="#[output application/java --- payload.SAMLResponse]" doc:name="Set Variable" doc:id="3e7301f0-bbeb-45a0-b679-f843cb2b4341" variableName="SAMLResponse"/>
+		<logger level="INFO" doc:name="Logger" doc:id="858f840f-2fe5-4138-8fff-8a4e01540056" message="#[vars.SAMLResponse]"/>
 		<java:new doc:name="New" doc:id="ba9bd8bd-e000-4d98-9a3f-9b4a4d75b5f7" class="com.dejim.AuthNRequestBuilder" constructor="AuthNRequestBuilder()"/>
 		<java:invoke doc:name="Invoke" doc:id="e8c83b4b-b752-4ae2-9e24-a3d65fe506de" instance="#[payload]" class="com.dejim.AuthNRequestBuilder" method="validateSAMLResponse(java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 			<java:args ><![CDATA[#[output application/java
 ---
 {
-	arg0: payload,
+	arg0: vars.SAMLResponse,
 	arg1: p('truststore.path'),
 	arg2: p('truststore.password'),
 	arg3: p('truststore.alias')

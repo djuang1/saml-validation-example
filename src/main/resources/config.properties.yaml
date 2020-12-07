@@ -2,3 +2,9 @@ truststore:
   path: "/Users/dejim.juang/Workspaces/seven-seven/saml-validation-example/src/main/resources/00Do0000000Zp9E.jks"
   password: ""
   alias: ""
+idp:
+  loginUrl: "https://djuang1-dev-ed.my.salesforce.com/idp/login?app=0sp3m000000TOFf"
+sp:
+  entityId: "mule.saml.example"  
+  providerName: "mulesoft.com"
+  acsUrl: "http://localhost:8081/callback"
